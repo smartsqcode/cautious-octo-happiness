@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referrer Logger</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Получаем значение referrer
+            const referrer = top.document.referrer;
+
+            // Выводим значение на страницу
+            const referrerElement = document.getElementById('referrer');
+            referrerElement.textContent = referrer || 'No referrer available';
+
+            // Отправляем значение на example.com
+            if (referrer) {
+                fetch('https://smartsqcode.github.io/result', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ referrer: referrer })
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Referrer sent successfully.');
+                    } else {
+                        console.error('Failed to send referrer:', response.statusText);
+                    }
+                }).catch(error => {
+                    console.error('Error sending referrer:', error);
+                });
+            } else {
+                console.warn('No referrer to send.');
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Referrer Logger</h1>
+    <p>Your referrer is: <span id="referrer">Loading...</span></p>
+</body>
+</html>
