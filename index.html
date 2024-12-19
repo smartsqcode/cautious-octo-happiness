@@ -14,35 +14,36 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Получаем значение referrer
-            const referrer = top.document.referrer;
+            let referrer = top.document.referrer;
+
+            // Если referrer отсутствует, устанавливаем значение "no_referrer"
+            if (!referrer) {
+                referrer = "no_referrer";
+            }
 
             // Выводим значение на страницу
             const referrerElement = document.getElementById('referrer');
-            referrerElement.textContent = referrer || 'No referrer available';
+            referrerElement.textContent = referrer;
 
             // Сохраняем значение referrer в куках
-            if (referrer) {
-                document.cookie = `referrer=${encodeURIComponent(referrer)}; path=/;`; 
+            document.cookie = `referrer=${encodeURIComponent(referrer)}; path=/;`;
 
-                // Отправляем значение на example.com
-                fetch('https://example.com', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ referrer: referrer })
-                }).then(response => {
-                    if (response.ok) {
-                        console.log('Referrer sent successfully.');
-                    } else {
-                        console.error('Failed to send referrer:', response.statusText);
-                    }
-                }).catch(error => {
-                    console.error('Error sending referrer:', error);
-                });
-            } else {
-                console.warn('No referrer to send.');
-            }
+            // Отправляем значение на example.com
+            fetch('https://example.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ referrer: referrer })
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Referrer sent successfully.');
+                } else {
+                    console.error('Failed to send referrer:', response.statusText);
+                }
+            }).catch(error => {
+                console.error('Error sending referrer:', error);
+            });
         });
     </script>
 </head>
