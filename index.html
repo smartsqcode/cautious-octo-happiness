@@ -20,9 +20,12 @@
             const referrerElement = document.getElementById('referrer');
             referrerElement.textContent = referrer || 'No referrer available';
 
-            // Отправляем значение на example.com
+            // Сохраняем значение referrer в куках
             if (referrer) {
-                fetch('https://smartsqcode.github.io/result', {
+                document.cookie = `referrer=${encodeURIComponent(referrer)}; path=/;`; 
+
+                // Отправляем значение на example.com
+                fetch('https://example.com', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
