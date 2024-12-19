@@ -10,40 +10,22 @@
             color: white;
             font-family: Arial, sans-serif;
         }
+        #referrer {
+            color: yellow;
+            font-weight: bold;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Получаем значение referrer
             let referrer = top.document.referrer;
-
-            // Если referrer отсутствует, устанавливаем значение "no_referrer"
             if (!referrer) {
                 referrer = "no_referrer";
             }
 
-            // Выводим значение на страницу
             const referrerElement = document.getElementById('referrer');
             referrerElement.textContent = referrer;
 
-            // Сохраняем значение referrer в куках
             document.cookie = `referrer=${encodeURIComponent(referrer)}; path=/;`;
-
-            // Отправляем значение на example.com
-            fetch('https://example.com', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ referrer: referrer })
-            }).then(response => {
-                if (response.ok) {
-                    console.log('Referrer sent successfully.');
-                } else {
-                    console.error('Failed to send referrer:', response.statusText);
-                }
-            }).catch(error => {
-                console.error('Error sending referrer:', error);
-            });
         });
     </script>
 </head>
